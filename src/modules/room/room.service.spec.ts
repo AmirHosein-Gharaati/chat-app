@@ -23,4 +23,13 @@ describe('RoomService', () => {
     expect(createdRoom.participants.length).toBe(1);
     expect(createdRoom.participants[0]).toBe(userId);
   });
+
+  it('should raise an error when giving a room id which does not exist', () => {
+    const userId = '1';
+    const roomId = 'test-room-id';
+
+    expect(() => roomService.addParticipant(roomId, userId)).toThrow(
+      `roomId ${roomId} does not exist`,
+    );
+  });
 });

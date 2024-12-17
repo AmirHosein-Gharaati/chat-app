@@ -17,7 +17,11 @@ export class RoomService {
   }
 
   addParticipant(roomId: string, userId: string) {
-    const room = this.rooms.filter((room) => room.id === roomId)[0];
-    room.participants.push(userId);
+    const room = this.rooms.filter((room) => room.id === roomId);
+    if (room.length === 0) {
+      throw Error(`roomId ${roomId} does not exist`);
+    }
+
+    room[0].participants.push(userId);
   }
 }
