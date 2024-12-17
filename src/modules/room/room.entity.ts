@@ -1,0 +1,7 @@
+import { Message } from '../chat/message.entity';
+
+export class Room {
+  id: string;
+  name: string;
+  messages: Message[];
+}
