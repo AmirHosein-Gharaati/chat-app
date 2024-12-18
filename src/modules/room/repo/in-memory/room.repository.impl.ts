@@ -24,4 +24,8 @@ export class InMemoryRoomRepository implements RoomRepository {
     findById(id: string): Promise<Room | null> {
         return Promise.resolve(this.rooms.find(room => room.id === id) || null);
     }
+
+    existsById(id: string): Promise<boolean> {
+        return Promise.resolve(this.rooms.some(room => room.id === id));
+    }
 }

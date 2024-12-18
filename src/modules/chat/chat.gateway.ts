@@ -81,10 +81,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     @SubscribeMessage('retrieveMessages')
-    async handleRetrieveMessages(@MessageBody() data: { roomId: string; userId: string }) {
+    async handleRetrieveMessages(@MessageBody() data: { roomId: string; }) {
         try {
-            this.logger.log(`retrieve messages with roomId=${data.roomId}, userId=${data.userId}`);
-            const messages = await this.messageService.retrieveMessages(data.roomId, data.userId);
+            this.logger.log(`retrieve messages with roomId=${data.roomId}`);
+            const messages = await this.messageService.retrieveMessages(data.roomId);
             return { success: true, messages };
         } catch (error) {
             this.logger.error(`error while retrieving messages`, error);

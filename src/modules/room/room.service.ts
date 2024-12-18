@@ -30,4 +30,8 @@ export class RoomService {
 
     return room.participants.includes(userId);
   }
+
+  existsById(roomId: string) {
+    return this.roomRepository.existsById(roomId);
+  }
 }
