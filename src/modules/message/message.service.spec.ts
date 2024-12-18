@@ -6,7 +6,6 @@ import { Message } from "./message.entity";
 
 describe('MessageService', () => {
   let service: MessageService;
-  let messageRepository: MessageRepository;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,7 +31,6 @@ describe('MessageService', () => {
     }).compile();
 
     service = module.get(MessageService);
-    messageRepository = module.get(MessageRepository);
   });
 
   it('should create a message', async () => {
