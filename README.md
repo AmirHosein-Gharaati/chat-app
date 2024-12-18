@@ -61,6 +61,11 @@ But I didn't get a response from the task sender.
 So I decided to implement the application using websockets. Also it is mentiond that I should implement a `simple chat application`. So for the 
 sake of simplicity, I decided to use an in-memory database.
 
+If the application must be implemented using REST and HTTP, then one
+solution is to use HTTP long polling instead of websockets. HTTP long polling is a technique that allows a client to send a request to the server and it holds the connection open until new data is available. This technique is not realtime but simulates it and comes
+with some drawbacks like higher latency and server resource usage due
+to keeping connections open.
+
 
 ## TODO
 - Add more test using different inputs
