@@ -64,8 +64,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 data.roomId,
             );
 
-            // Broadcast the message to all clients in the room
-            this.server.to(data.roomId).emit('newMessage', message);
+            // Broadcast the message to all clients in the room except the sender
+            this.server.to(data.roomId).except(client.id).emit('newMessage', message);
             return { success: true, message };
         } catch (error) {
             return { success: false, error: error.message };
