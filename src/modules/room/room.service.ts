@@ -27,4 +27,18 @@ export class RoomService {
 
     room[0].participants.push(userId);
   }
+
+  participantExists(roomId: string, userId: string) {
+    for (let i = 0; i < this.rooms.length; i++) {
+      const room = this.rooms[i];
+
+      if (room.id === roomId) {
+        const userExists =
+          room.participants.findIndex((pId) => pId === userId) != -1;
+        return userExists;
+      }
+    }
+
+    throw Error(`room does not exist with id=${roomId}`);
+  }
 }
