@@ -15,7 +15,6 @@ function configSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
     .setTitle('Chat App')
     .setVersion('1.0')
-    .addTag('chat')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, documentFactory);
