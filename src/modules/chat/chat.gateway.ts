@@ -2,6 +2,7 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket, WebSo
 import { Server, Socket } from 'socket.io';
 import { RoomService } from '../room/room.service';
 import { MessageService } from '../message/message.service';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({
     cors: {
@@ -11,6 +12,7 @@ import { MessageService } from '../message/message.service';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
     server: Server;
+    private readonly logger = new Logger('ChatGateway');
 
     constructor(
         private readonly roomService: RoomService,
@@ -18,20 +20,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     ) { }
 
     async handleConnection(client: Socket) {
-        console.log(`client connected with id=${client.id}`);
+        this.logger.log(`client connected with socketId=${client.id}`);
     }
 
     async handleDisconnect(client: Socket) {
-        console.log(`client disconnected with id=${client.id}`);
+        this.logger.log(`client disconnected with socketId=${client.id}`);
     }
 
     @SubscribeMessage('createRoom')
     async handleCreateRoom(
-        @MessageBody() roomName: string,
+        @MessageBody() data: { roomName: string},
         @ConnectedSocket() client: Socket,
     ) {
         try {
-            const room = await this.roomService.create(roomName);
+            const room = await this.roomService.create(data.roomName);
             return { success: true, room };
         } catch (error) {
             return { success: false, error: error.message };
