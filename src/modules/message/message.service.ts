@@ -22,7 +22,13 @@ export class MessageService {
     return await this.messageRepository.save(message);
   }
 
-  async findByRoomId(roomId: string) {
+  async retrieveMessages(roomId: string, userId: string) {
+    const userExistsInRoom = await this.roomService.participantExists(roomId, userId);
+    if (!userExistsInRoom) {
+      throw Error(
+        `user does not exist with roomId=${roomId}, userId=${userId}`,
+      );
+    }
     return this.messageRepository.findByRoomId(roomId);
   }
 }
