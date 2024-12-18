@@ -4,10 +4,6 @@ import { RoomRepository } from './repo/room.repository';
 
 @Injectable()
 export class RoomService {
-  rooms: Room[] = [];
-
-  sequenceNumber: number = 0;
-
   constructor(private readonly roomRepository: RoomRepository) {}
 
   create(name: string) {
@@ -25,8 +21,8 @@ export class RoomService {
     return this.roomRepository.update(room);
   }
 
-  participantExists(roomId: string, userId: string) {
-    const room = this.rooms.find(room => room.id === roomId);
+  async participantExists(roomId: string, userId: string) {
+    const room = await this.roomRepository.findById(roomId);
     
     if (!room) {
       throw Error(`room does not exist with id=${roomId}`);

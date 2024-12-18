@@ -9,8 +9,8 @@ export class MessageService {
 
   constructor(private readonly roomService: RoomService) {}
 
-  create(text: string, userId: string, roomId: string) {
-    const userExistsInRoom = this.roomService.participantExists(roomId, userId);
+  async create(text: string, userId: string, roomId: string) {
+    const userExistsInRoom = await this.roomService.participantExists(roomId, userId);
     if (!userExistsInRoom) {
       throw Error(
         `user does not exist with roomId=${roomId}, userId=${userId}`,
