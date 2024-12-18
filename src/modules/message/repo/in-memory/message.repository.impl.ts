@@ -19,4 +19,8 @@ export class InMemoryMessageRepository extends MessageRepository {
   async findAll(): Promise<Message[]> {
     return [...this.messages];
   }
+
+  async findByRoomId(roomId: string): Promise<Message[]> {
+    return this.messages.filter(message => message.room === roomId);
+  }
 }

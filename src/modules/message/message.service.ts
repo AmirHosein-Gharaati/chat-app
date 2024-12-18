@@ -21,4 +21,8 @@ export class MessageService {
     const message = new Message(text, userId, roomId);
     return await this.messageRepository.save(message);
   }
+
+  async findByRoomId(roomId: string) {
+    return this.messageRepository.findByRoomId(roomId);
+  }
 }

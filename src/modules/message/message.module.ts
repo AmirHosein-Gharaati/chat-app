@@ -6,6 +6,7 @@ import { InMemoryMessageRepository } from './repo/in-memory/message.repository.i
 
 @Module({
   imports: [RoomModule],
+  exports: [MessageService],
   providers: [
     MessageService,
     {
