@@ -33,9 +33,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         @ConnectedSocket() client: Socket,
     ) {
         try {
+            this.logger.log(`create room with name=${data.roomName}`);
             const room = await this.roomService.create(data.roomName);
             return { success: true, room };
         } catch (error) {
+            this.logger.error(`error while creating room`, error);
             return { success: false, error: error.message };
         }
     }
@@ -46,10 +48,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         @ConnectedSocket() client: Socket,
     ) {
         try {
+            this.logger.log(`join room with roomId=${data.roomId} and userId=${data.userId}`);
             await this.roomService.addParticipant(data.roomId, data.userId);
             client.join(data.roomId);
             return { success: true };
         } catch (error) {
+            this.logger.error(`error while joining room`, error);
             return { success: false, error: error.message };
         }
     }
@@ -60,6 +64,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         @ConnectedSocket() client: Socket,
     ) {
         try {
+            this.logger.log(`send message with roomId=${data.roomId}, userId=${data.userId}`);
             const message = await this.messageService.create(
                 data.text,
                 data.userId,
@@ -70,6 +75,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             this.server.to(data.roomId).except(client.id).emit('newMessage', message);
             return { success: true, message };
         } catch (error) {
+            this.logger.error(`error while sending message`, error);
             return { success: false, error: error.message };
         }
     }
@@ -77,9 +83,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SubscribeMessage('retrieveMessages')
     async handleRetrieveMessages(@MessageBody() data: { roomId: string; userId: string }) {
         try {
+            this.logger.log(`retrieve messages with roomId=${data.roomId}, userId=${data.userId}`);
             const messages = await this.messageService.retrieveMessages(data.roomId, data.userId);
             return { success: true, messages };
         } catch (error) {
+            this.logger.error(`error while retrieving messages`, error);
             return { success: false, error: error.message };
         }
     }
