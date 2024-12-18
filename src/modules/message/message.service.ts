@@ -4,7 +4,7 @@ import { RoomService } from '../room/room.service';
 
 @Injectable()
 export class MessageService {
-  messages: Message[];
+  messages: Message[] = [];
   sequenceNumber: number = 0;
 
   constructor(private readonly roomService: RoomService) {}
