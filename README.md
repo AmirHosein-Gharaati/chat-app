@@ -58,3 +58,8 @@ But I didn't get a response from the task sender.
 
 So I decided to implement the application using websockets. Also it is mentiond that I should implement a `simple chat application`. So for the 
 sake of simplicity, I decided to use an in-memory database.
+
+
+## TODO
+- Exception handling for some edge cases and scenarios
+- User creation and authentication
