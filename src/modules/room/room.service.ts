@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Room } from './room.entity';
 import { RoomRepository } from './repo/room.repository';
 
@@ -14,7 +14,7 @@ export class RoomService {
   async addParticipant(roomId: string, userId: string) {
     const room = await this.roomRepository.findById(roomId);
     if (!room) {
-      throw Error(`roomId ${roomId} does not exist`);
+      throw new NotFoundException(`room does not exist with id=${roomId}`);
     }
 
     room.participants.push(userId);
@@ -25,7 +25,7 @@ export class RoomService {
     const room = await this.roomRepository.findById(roomId);
     
     if (!room) {
-      throw Error(`room does not exist with id=${roomId}`);
+      throw new NotFoundException(`room does not exist with id=${roomId}`);
     }
 
     return room.participants.includes(userId);

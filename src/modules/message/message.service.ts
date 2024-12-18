@@ -13,7 +13,7 @@ export class MessageService {
   async create(text: string, userId: string, roomId: string) {
     const userExistsInRoom = await this.roomService.participantExists(roomId, userId);
     if (!userExistsInRoom) {
-      throw Error(
+      throw new NotFoundException(
         `user does not exist with roomId=${roomId}, userId=${userId}`,
       );
     }

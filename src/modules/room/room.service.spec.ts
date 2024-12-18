@@ -32,7 +32,7 @@ describe('RoomService', () => {
     const roomId = 'test-room-id';
 
     expect(() => roomService.addParticipant(roomId, userId)).rejects.toThrow(
-      `roomId ${roomId} does not exist`,
+      `room does not exist with id=${roomId}`,
     );
   });
 });
