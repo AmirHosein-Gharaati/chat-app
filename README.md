@@ -5,6 +5,7 @@
 ### Local
 You must have installed `yarn` in your machine: https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable
 
+It is recommended that you use node version 20.
 
 Install dependencies using yarn:
 
