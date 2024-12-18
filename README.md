@@ -61,5 +61,5 @@ sake of simplicity, I decided to use an in-memory database.
 
 
 ## TODO
-- Exception handling for some edge cases and scenarios
+- Add more test using different inputs
 - User creation and authentication
