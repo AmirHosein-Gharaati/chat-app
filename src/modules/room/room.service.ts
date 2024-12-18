@@ -5,10 +5,13 @@ import { Room } from './room.entity';
 export class RoomService {
   rooms: Room[] = [];
 
+  sequenceNumber: number = 0;
+
   constructor() {}
 
   create(name: string) {
-    const id = (this.rooms.length + 1).toString();
+    const id = this.sequenceNumber.toString();
+    this.sequenceNumber++;
     const room = new Room(id, name);
 
     this.rooms.push(room);
