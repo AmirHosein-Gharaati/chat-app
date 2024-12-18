@@ -3,8 +3,7 @@ export class Room {
   name: string;
   participants: string[];
 
-  constructor(id: string, name: string) {
-    this.id = id;
+  constructor(name: string) {
     this.name = name;
     this.participants = [];
   }

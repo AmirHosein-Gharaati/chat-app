@@ -1,34 +1,37 @@
 import { Test } from '@nestjs/testing';
 import { RoomService } from './room.service';
+import { InMemoryRoomRepository } from './repo/in-memory/room.repository.impl';
+import { RoomRepository } from './repo/room.repository';
 
 describe('RoomService', () => {
   let roomService: RoomService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [RoomService],
+      providers: [RoomService, {
+        provide: RoomRepository,
+        useClass: InMemoryRoomRepository,
+      }],
     }).compile();
 
     roomService = moduleRef.get(RoomService);
   });
 
-  it('should add participant to a room', () => {
+  it('should add participant to a room', async () => {
     const userId = '1';
-    const room = roomService.create('Test room');
+    const room = await roomService.create('Test room');
 
-    roomService.addParticipant(room.id, userId);
+    const updatedRoom = await roomService.addParticipant(room.id, userId);
 
-    const createdRoom = roomService.rooms.filter((r) => r.id === room.id)[0];
-
-    expect(createdRoom.participants.length).toBe(1);
-    expect(createdRoom.participants[0]).toBe(userId);
+    expect(updatedRoom.participants.length).toBe(1);
+    expect(updatedRoom.participants[0]).toBe(userId);
   });
 
   it('should raise an error when giving a room id which does not exist', () => {
     const userId = '1';
     const roomId = 'test-room-id';
 
-    expect(() => roomService.addParticipant(roomId, userId)).toThrow(
+    expect(() => roomService.addParticipant(roomId, userId)).rejects.toThrow(
       `roomId ${roomId} does not exist`,
     );
   });
