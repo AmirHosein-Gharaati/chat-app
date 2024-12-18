@@ -30,7 +30,9 @@ docker compose up -d
 in the project directory. Remove if you have them.
 
 ## Swagger
-You can check API swagger documentation in: http://localhost:3000/swagger
+The application is implemeted mainly using websockets (Read Notes section for more details).
+
+But there is also a REST endpoint available. You can check API swagger documentation in: http://localhost:3000/swagger
 
 The websocket is available in: `localhost:3000`
 
