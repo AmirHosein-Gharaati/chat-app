@@ -1,22 +1,38 @@
 import { TestingModule, Test } from "@nestjs/testing";
 import { MessageService } from "./message.service";
 import { RoomService } from "../room/room.service";
-
+import { MessageRepository } from "./repo/message.repository";
+import { Message } from "./message.entity";
 
 describe('MessageService', () => {
   let service: MessageService;
+  let messageRepository: MessageRepository;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MessageService, {
-        provide: RoomService,
-        useValue: {
-            participantExists: jest.fn().mockReturnValue(Promise.resolve(true)),
+      providers: [
+        MessageService,
+        {
+          provide: RoomService,
+          useValue: {
+            participantExists: jest.fn().mockResolvedValue(true),
+          }
+        },
+        {
+          provide: MessageRepository,
+          useValue: {
+            save: jest.fn().mockImplementation((message: Message) => {
+              message.id = '0';
+              return Promise.resolve(message);
+            }),
+            findAll: jest.fn().mockResolvedValue([]),
+          }
         }
-      }],
+      ],
     }).compile();
 
     service = module.get(MessageService);
+    messageRepository = module.get(MessageRepository);
   });
 
   it('should create a message', async () => {
@@ -28,5 +44,6 @@ describe('MessageService', () => {
 
     expect(message).toBeDefined();
     expect(message.text).toEqual(text);
-  })
+    expect(message.id).toBeDefined();
+  });
 });

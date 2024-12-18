@@ -5,8 +5,7 @@ export class Message {
   room: string;
   createdAt: Date;
 
-  constructor(id: string, text: string, creator: string, room: string) {
-    this.id = id;
+  constructor(text: string, creator: string, room: string) {
     this.text = text;
     this.creator = creator;
     this.room = room;

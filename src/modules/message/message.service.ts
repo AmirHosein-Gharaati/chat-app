@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Message } from './message.entity';
 import { RoomService } from '../room/room.service';
+import { MessageRepository } from './repo/message.repository';
 
 @Injectable()
 export class MessageService {
-  messages: Message[] = [];
-  sequenceNumber: number = 0;
-
-  constructor(private readonly roomService: RoomService) {}
+  constructor(
+    private readonly roomService: RoomService,
+    private readonly messageRepository: MessageRepository,
+  ) {}
 
   async create(text: string, userId: string, roomId: string) {
     const userExistsInRoom = await this.roomService.participantExists(roomId, userId);
@@ -16,15 +17,8 @@ export class MessageService {
         `user does not exist with roomId=${roomId}, userId=${userId}`,
       );
     }
-    const message = this.createMessage(text, userId, roomId);
-    this.messages.push(message);
-
-    return message;
-  }
-
-  private createMessage(text: string, userId: string, roomId: string) {
-    const id = this.sequenceNumber.toString();
-    this.sequenceNumber++;
-    return new Message(id, text, userId, roomId);
+    
+    const message = new Message(text, userId, roomId);
+    return await this.messageRepository.save(message);
   }
 }
