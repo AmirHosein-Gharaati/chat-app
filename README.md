@@ -25,6 +25,9 @@ If you have docker installed, you can run the application using docker:
 docker compose up -d
 ```
 
+**Note**: make sure the `node_modules` and `dist` folder is not 
+in the project directory. Remove if you have them.
+
 ## Swagger
 You can check API swagger documentation in: http://localhost:3000/swagger
 
